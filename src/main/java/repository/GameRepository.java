@@ -27,6 +27,7 @@ public class GameRepository extends Repository<Game, Integer> {
 
     public Game createMaps(Game game) {
         game.setDungeonList(getDungeons(game.getNumOfLevels()));
+        game.setCurrentLevel(0);
         return game;
     }
 
@@ -44,9 +45,11 @@ public class GameRepository extends Repository<Game, Integer> {
 
             List<Monster> monsterList = dungeonRepository.createMonsters(rand.nextInt(3));
             dungeon.setMonsterList(monsterList);
+            dungeon.setMonsters(true);
 
             HealthPotion healthPotion = dungeonRepository.createHealthPotion();
             dungeon.setHealthPotion(healthPotion);
+            dungeon.setPickups(true);
 
             dungeonList.add(dungeon);
             dungeon = dungeonRepository.save(dungeon);
@@ -56,16 +59,58 @@ public class GameRepository extends Repository<Game, Integer> {
     }
 
     public Game updateStatus(Game game){
-        String msg = new String();
+        String msg = "";
 
-        if(game.getDungeonList().get(game.currentLevel).getMonsterList() != null) msg += "You have monsters to battle! /fight \n You are allowed to /flee once.";
-        if(game.getDungeonList().get(game.currentLevel).getHealthPotion() != null) msg += "\n A potion is waiting for you /pickup";
+        if(game.getDungeonList().get(game.currentLevel).getMonsters()) msg += "You have monsters to battle! /fight \n You are allowed to /flee once.";
+/*
+        if(game.getDungeonList().get(game.currentLevel).getPickups()) msg += "\n A potion is waiting for you /pickup";
+
         if(game.getDungeonList().get(game.currentLevel).getLocked()) msg += "\n The exit is locked.";
-        else msg += "\n the exit is unlocked. You can move on.";
 
-        game.setStatusMessage(msg);
+        if(game.getDungeonList().get(game.currentLevel).getOrb()) { msg += "\n This is the final level."; }
+        else { msg += "\n the exit is unlocked. You can move on."; }*/
+
+        //game.setStatusMessage(msg);
+        //game = save(game);
+
+        game = checkLevel(game);
+        return game;
+    }
+
+    public Game pickup(Game game){
+        //float newHP = game.getDungeonList().get(game.currentLevel).getPlayerCharacter().getHealth() + game.getDungeonList().get(game.currentLevel).getHealthPotion().getValue();
+        //if (newHP > 150) newHP = 150;
+        //game.getDungeonList().get(game.currentLevel).getPlayerCharacter().setHealth(150);
+
+        game.getDungeonList().get(game.currentLevel).setPickups(false);
         game = save(game);
 
+        game = checkLevel(game);
+        return game;
+    }
+
+    public Game checkLevel(Game game) {
+        Boolean monsters = game.getDungeonList().get(game.currentLevel).getMonsters();
+        if(!monsters) game.getDungeonList().get(game.currentLevel).setDoorUnlock(true);
+
+        game = save(game);
+        return game;
+    }
+
+    public Game nextLevel(Game game) {
+
+        Integer level = game.getCurrentLevel() + 1;
+        game.setCurrentLevel(level);
+/*
+        if(game.getCurrentLevel() == game.getNumOfLevels() - 1) {
+            game.getDungeonList().get(game.currentLevel).setOrb(true);
+        }*/
+        return game;
+    }
+
+    public Game takeOrb(Game game) {
+        game.getDungeonList().get(game.currentLevel).setOrb(false);
+        game.setStatusMessage("You won!");
         return game;
     }
 }

@@ -8,4 +8,8 @@ public interface GameService {
     Game findGame(Integer id);
     Game getMoves(Integer id);
     Game fightMonsters(Integer id);
+    Game pickup(Integer id);
+    Game flee(Integer id);
+    Game nextLevel(Integer id);
+    Game takeOrb(Integer id);
 }

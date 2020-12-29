@@ -61,7 +61,7 @@ public class DungeonRepository extends Repository<Dungeon, Integer> {
 
         for (Monster monster:
                 dungeon.getMonsterList()) {
-            PlayerCharacter playerCharacter = fightMonster(dungeon.getPlayerCharacter(), monster);
+            //PlayerCharacter playerCharacter = fightMonster(dungeon.getPlayerCharacter(), monster);
             monsterRepository.delete(monster);
         }
         dungeon.setMonsterList(null);
@@ -84,6 +84,7 @@ public class DungeonRepository extends Repository<Dungeon, Integer> {
 
         playerCharacter = playerCharacterRespository.save(playerCharacter);
         monster = monsterRepository.save(monster);
+
 
         return playerCharacter;
     }

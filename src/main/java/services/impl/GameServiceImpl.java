@@ -1,5 +1,6 @@
 package services.impl;
 
+import com.sun.xml.bind.v2.TODO;
 import repository.DungeonRepository;
 import repository.GameRepository;
 
@@ -56,15 +57,54 @@ public class GameServiceImpl implements GameService {
         if (game != null) {
             if (game.getDungeonList().get(game.currentLevel).getMonsterList() != null) {
                 List<Dungeon> dungeonList = dungeonRepository.fightMonsters(game.getDungeonList(), game.currentLevel);
-                if (dungeonList != null)
-                    game.setDungeonList(dungeonList);
+                //if (dungeonList != null)
+                //    game.setDungeonList(dungeonList);
             }
-
+            game.getDungeonList().get(game.currentLevel).setMonsters(false);
             game.setStatusMessage("You have defeated the monsters");
+            game = gameRepository.checkLevel(game);
             game = gameRepository.save(game);
 
 
         }
+        return game;
+    }
+
+    @Override
+    public Game pickup(Integer id) {
+        Game game = gameRepository.findById(id);
+
+        if(game != null && game.getDungeonList().get(game.currentLevel).getPickups()) {
+            game = gameRepository.pickup(game);
+        }
+        return game;
+    }
+
+    @Override
+    public Game flee(Integer id) {
+        Game game = gameRepository.findById(id);
+
+        //Punish player
+
+        if(game.getFlee()) {
+            game.setFlee(false);
+            game.getDungeonList().get(game.currentLevel).setMonsters(false);
+            fightMonsters(id);
+        }
+        return game;
+    }
+
+    @Override
+    public Game nextLevel(Integer id) {
+        Game game = gameRepository.findById(id);
+        game = gameRepository.nextLevel(game);
+        return game;
+    }
+
+    @Override
+    public Game takeOrb(Integer id) {
+        Game game = gameRepository.findById(id);
+        game = gameRepository.takeOrb(game);
         return game;
     }
 }

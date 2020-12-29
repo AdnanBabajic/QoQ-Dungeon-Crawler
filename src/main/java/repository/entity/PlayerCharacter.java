@@ -19,7 +19,7 @@ public class PlayerCharacter extends ModelObject{
     private float xp = 0;
     private Integer level = 1;
     private float attackDmg = level * 20;
-    private float health = 100 + level * 50;
+    private float health = 100;
     private float critChance = 25;
 
     @JsonbTransient

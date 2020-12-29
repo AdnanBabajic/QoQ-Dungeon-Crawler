@@ -62,7 +62,7 @@ public class GameResource {
     public Response getMoves(@PathParam("id") Integer id)
     {
         Game game = gameService.getMoves(id);
-        if(game != null) return Response.ok(game).build();
+        if(game != null) return Response.ok(game.getDungeonList().get(game.currentLevel)).build();
         return Response.status(Response.Status.EXPECTATION_FAILED).build();
     }
 
@@ -72,7 +72,47 @@ public class GameResource {
     public Response fightMonsters(@PathParam("id") Integer id)
     {
         Game game = gameService.fightMonsters(id);
+        if(game != null) return Response.ok(game.getDungeonList().get(game.currentLevel)).build();
+        return Response.status(Response.Status.EXPECTATION_FAILED).build();
+    }
+
+    @GET
+    @Path("{id}/move/pickup")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response pickups(@PathParam("id") Integer id)
+    {
+        Game game = gameService.pickup(id);
+        if(game != null) return Response.ok(game.getDungeonList().get(game.currentLevel)).build();
+        return Response.status(Response.Status.EXPECTATION_FAILED).build();
+    }
+
+    @GET
+    @Path("{id}/move/flee")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response flee(@PathParam("id") Integer id)
+    {
+        Game game = gameService.flee(id);
         if(game != null) return Response.ok(game).build();
+        return Response.status(Response.Status.EXPECTATION_FAILED).build();
+    }
+
+    @GET
+    @Path("{id}/move/next")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response nextLevel(@PathParam("id") Integer id)
+    {
+        Game game = gameService.nextLevel(id);
+        if(game != null) return Response.ok(game).build();
+        return Response.status(Response.Status.EXPECTATION_FAILED).build();
+    }
+
+    @GET
+    @Path("{id}/move/orb")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response takeOrb(@PathParam("id") Integer id)
+    {
+        Game game = gameService.takeOrb(id);
+        if(game != null) return Response.ok(game.getDungeonList().get(game.currentLevel)).build();
         return Response.status(Response.Status.EXPECTATION_FAILED).build();
     }
 }

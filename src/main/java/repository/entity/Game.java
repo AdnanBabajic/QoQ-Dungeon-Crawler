@@ -18,9 +18,18 @@ public class Game extends ModelObject {
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    private Integer numOfLevels = (int)(Math.random() * 6) + 4;
+    private Integer numOfLevels = (int)(Math.random() * 2) + 1;
+
+    public Boolean getFlee() {
+        return flee;
+    }
+
+    public void setFlee(Boolean flee) {
+        this.flee = flee;
+    }
+
     private Boolean flee = true;
-    public Integer currentLevel = 0;
+    public Integer currentLevel;
     public String statusMessage = "Welcome to the game";
 
     @JsonbTransient

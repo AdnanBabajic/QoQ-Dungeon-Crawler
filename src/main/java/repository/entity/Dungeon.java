@@ -47,6 +47,43 @@ public class Dungeon extends ModelObject {
 
     private Boolean locked = true;
 
+    public Boolean getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(Boolean monsters) {
+        this.monsters = monsters;
+    }
+
+    public Boolean getPickups() {
+        return pickups;
+    }
+
+    public void setPickups(Boolean pickups) {
+        this.pickups = pickups;
+    }
+
+    public Boolean getDoorUnlock() {
+        return doorUnlock;
+    }
+
+    public void setDoorUnlock(Boolean doorUnlock) {
+        this.doorUnlock = doorUnlock;
+    }
+
+    public Boolean getOrb() {
+        return orb;
+    }
+
+    public void setOrb(Boolean orb) {
+        this.orb = orb;
+    }
+
+    public Boolean monsters = false;
+    public Boolean pickups = false;
+    public Boolean doorUnlock = false;
+    public Boolean orb = false;
+
     public Boolean getLocked() {
         return locked;
     }
